@@ -21,6 +21,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Data struct {
@@ -28,6 +29,7 @@ type Data struct {
 	Revision     string
 	Project      string
 	ProjectFound bool
+	EnvVars      []string
 }
 
 func main() {
@@ -60,11 +62,18 @@ func main() {
 		revision = "???"
 	}
 
+	var envVars []string
+	for _, e := range os.Environ() {
+		pair := strings.SplitN(e, "=", 2)
+		envVars = append(envVars, pair[0])
+	}
+
 	data := Data{
 		Service:      service,
 		Revision:     revision,
 		Project:      project,
 		ProjectFound: projectFound,
+		EnvVars: envVars,
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

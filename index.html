@@ -67,7 +67,7 @@
 
  .details {
 	clear: both;
-	height: 400px;
+	height: 600px;
 	line-height: 1.8;
  }
 
@@ -186,6 +186,13 @@
 			<p class="cta">
 				<a href="https://cloud.google.com/run/docs/quickstarts/build-and-deploy" target="_blank">
 					BUILD AND DEPLOY QUICKSTART</a></p>
+
+			<div class="callout">
+				<h3>Environment variables</h3>
+				<ul>
+					{{range $element := .EnvVars}} <li>{{$element}}</li> {{end}}
+				</ul>
+			</div>
 		</div>
 	</div>
 </body>
