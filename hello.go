@@ -15,6 +15,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -51,6 +52,10 @@ func main() {
 		project = string(responseBody)
 		projectFound = true
 	}
+
+	// Test integration with Stackdriver
+	ctx := context.Background()
+	stackdriverTest(ctx, project)
 
 	service := os.Getenv("K_SERVICE")
 	if service == "" {

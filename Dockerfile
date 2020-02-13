@@ -7,6 +7,11 @@ FROM golang as builder
 WORKDIR /go/src/cloudrun/hello
 COPY . .
 
+# Retrieve application dependencies.
+# This allows the container build to reuse cached dependencies.
+COPY go.* ./
+RUN go mod download
+
 # Build the outyet command inside the container.
 # (You may fetch or manage dependencies here,
 # either manually or with a tool like "godep".)
