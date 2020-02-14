@@ -15,7 +15,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -34,6 +33,8 @@ type Data struct {
 }
 
 func main() {
+	handleSignals()
+
 	tmpl := template.Must(template.ParseFiles("index.html"))
 
 	// Get project ID from metadata server
@@ -54,8 +55,7 @@ func main() {
 	}
 
 	// Test integration with Stackdriver
-	ctx := context.Background()
-	stackdriverTest(ctx, project)
+	// ctx := context.Background()
 
 	service := os.Getenv("K_SERVICE")
 	if service == "" {
@@ -82,6 +82,20 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		//err := stackdriverTest(ctx, project)
+		//if err != nil {
+		//	log.Fatal(err)
+		//	w.Write([]byte(fmt.Sprintf("Failed to write to Stackdriver: %v", err)))
+		//	return
+		//}
+		//
+		//err = openCensusTest(ctx, project)
+		//if err != nil {
+		//	log.Fatal(err)
+		//	w.Write([]byte(fmt.Sprintf("Failed to write to OpenCensus: %v", err)))
+		//	return
+		//}
+
 		tmpl.Execute(w, data)
 	})
 

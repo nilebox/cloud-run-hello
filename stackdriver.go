@@ -13,11 +13,12 @@ import (
 	monitoringpb "google.golang.org/genproto/googleapis/monitoring/v3"
 )
 
-func stackdriverTest(ctx context.Context, projectID string) {
+func stackdriverTest(ctx context.Context, projectID string) error {
 	// Creates a client.
 	client, err := monitoring.NewMetricClient(ctx)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
+		return err
 	}
 
 	// Prepares an individual data point
@@ -58,12 +59,15 @@ func stackdriverTest(ctx context.Context, projectID string) {
 		},
 	}); err != nil {
 		log.Fatalf("Failed to write time series data: %v", err)
+		return err
 	}
 
 	// Closes the client and flushes the data to Stackdriver.
 	if err := client.Close(); err != nil {
 		log.Fatalf("Failed to close client: %v", err)
+		return err
 	}
 
-	fmt.Printf("Done writing time series data.\n")
+	fmt.Printf("Done writing time series data directly.\n")
+	return nil
 }
